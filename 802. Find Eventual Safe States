@@ -24,7 +24,7 @@ public:
                 graph2[it].push_back(i);
             }
         }
-
+        //queue 
 
         while(!q.empty()){
             int x = q.front();
