@@ -10,7 +10,7 @@ public:
             v[it[1]]++;
         }
  
-        queue<int> q;  //queue declaration
+        queue<int> q;  
         for(int i=0; i<v.size(); i++) {
             if(v[i]==0) {
                 q.push(i);
