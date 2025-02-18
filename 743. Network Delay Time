@@ -1,0 +1,37 @@
+class Solution {
+public:
+    int networkDelayTime(vector<vector<int>>& times, int n, int k) {
+        vector<vector<pair<int,int>>> graph(n+1);
+        for(auto it : times){
+            graph[it[0]].push_back({it[1],it[2]});
+        }
+        vector<int> ans(n+1,1e9);
+        ans[k]=0;
+        set<pair<int,int>> s;
+        s.insert({0,k});
+        while(!s.empty()){
+            auto it = s.begin();
+            int x = (*it).first;
+            int y = (*it).second;
+            s.erase(it);
+
+            for(auto it : graph[y]){
+                int nv = x+it.second;
+                if(ans[it.first]>nv) {
+                    ans[it.first]=nv;
+                    s.insert({nv,it.first});
+                }
+            }
+        }
+
+        int fans=0;
+        for(int i=1; i<=n; i++){
+            if(i!=k){
+                if(ans[i]==1e9) return -1;
+                 fans=max(fans,ans[i]);}
+        }
+      
+        return fans;
+
+    }
+};
