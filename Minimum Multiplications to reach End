@@ -1,0 +1,31 @@
+// User function Template for C++
+
+class Solution {
+  public:
+    int minimumMultiplications(vector<int>& arr, int start, int end) {
+        set<pair<int,long long>> s;
+        
+        s.insert({0,start});
+        int mod = 100000;
+        vector<int> ans(1e5,1e9);
+        ans[start]=0;
+        while(!s.empty()){
+            auto it = s.begin();
+            int y = (*it).first;
+           long long x = (*it).second;
+            
+            s.erase(it);
+            
+            for(auto it : arr){
+                long long nval = x*it;
+                nval%=mod;
+               if(ans[nval]>(y+1)) {
+                   ans[nval]=y+1;
+                   s.insert({y+1,nval});
+               }
+            }
+        }
+            if(ans[end]==1e9) return -1;
+            return ans[end];
+    }
+};
