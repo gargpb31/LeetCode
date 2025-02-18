@@ -7,9 +7,8 @@ public:
             graph[flights[i][0]].push_back({flights[i][1], flights[i][2]});
         }
 
-        vector<vector<int>> ans(n, vector<int>(n, 1e9));
-        for (int i = 0; i < n; i++)
-            ans[src][i] = 0;
+        vector<int> ans(n,1e9);
+       ans[src]=0;
         set<pair<int, pair<int, int>>> s;
         s.insert({0, {src, 0}});
 
@@ -22,30 +21,27 @@ public:
             s.erase(it);
 
             for (auto it2 : graph[y]) {
-                int nn = x + it2.second;
+                int nn = z + it2.second;
                 if (it2.first == dst) {
-                    if (z <= k) {
-                        if (ans[it2.first][z] > nn) {
-                            ans[it2.first][z] = nn;
-                            s.insert({nn, {it2.first, z + 1}});
+                    if (x <= k) {
+                        if (ans[it2.first] > nn) {
+                            ans[it2.first] = nn;
+                            s.insert({x+1, {it2.first,nn}});
                         }
                     }
                 } else {
-                    if (z <= k) {
-                        if (ans[it2.first][z] > nn) {
-                            ans[it2.first][z] = nn;
-                            s.insert({nn, {it2.first, z + 1}});
+                    if (x <= k) {
+                        if (ans[it2.first] > nn) {
+                            ans[it2.first] = nn;
+                            s.insert({x+1, {it2.first, nn}});
                         }
                     }
                 }
             }
         }
-        int fans = 1e9;
-        for (int i = 0; i <= k; i++) {
-            fans = min(fans, ans[dst][i]);
-        }
-        if (fans == 1e9)
+        
+        if (ans[dst] == 1e9)
             return -1;
-        return fans;
+        return ans[dst];
     }
 };
