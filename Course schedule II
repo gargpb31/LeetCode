@@ -17,7 +17,7 @@ public:
         if(v[i]==0) q.push(i); 
        }
        vector<int> ans;
-       while(!q.empty()){
+       while(!q.empty()) {
         int x = q.front();
         q.pop();
         ans.push_back(x);
