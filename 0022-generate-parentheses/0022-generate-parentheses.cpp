@@ -1,8 +1,8 @@
 class Solution {
 public:
-    void generate(int n, string s,set<string> &v,int c,int c1){
+    void generate(int n, string s,vector<string> &v,int c,int c1){
         if(s.size()==2*n) {
-            v.insert(s);
+            v.push_back(s);
             return;
         }
 
@@ -21,23 +21,11 @@ public:
     vector<string> generateParenthesis(int n) {
           set<string> parenthesis;
             string s = "";
-            generate(n,s,parenthesis,0,0);
-            vector<string> ans;
+             vector<string> ans;
+            generate(n,s,ans,0,0);
+           
 
-            for(auto it : parenthesis){
-                    string f = it;
-                    int c=0;
-                    int flag=0;
-                    for(auto it1: f){
-                        if(it1==')'){
-                                if(c==0) {flag=1; break;}
-                                else c--;
-                        }
-                        else c++;
-                    }
-
-                    if(flag==0 && c==0) ans.push_back(f); 
-            }
+            
             return ans;
 
 
