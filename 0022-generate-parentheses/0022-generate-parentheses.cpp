@@ -11,7 +11,7 @@ public:
         generate(n,s,v,c+1,c1);
 
         s.pop_back();}
-        if(c1<n){
+        if(c1<n && c1<c){
         s+=')';
           generate(n,s,v,c,c1+1);}
 
