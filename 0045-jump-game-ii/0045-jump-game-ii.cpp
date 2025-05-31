@@ -1,28 +1,32 @@
 class Solution {
 public:
     int jump(vector<int>& nums) {
-        if(nums.size()==1) return 0;
-        set<int> s;
-        s.insert(nums[0]);
-        int ans=0;
-        int t=0;
-        int g1=1;
-        while(t<nums.size()-1){
-            auto it = s.end();
-            it--;
-            int g = (*it);
-            s.erase(it);
+        int n = nums.size();
+
+        vector<int> dp(n,0);
+        dp[n-1]=0;
+
+        for(int i=n-2; i>=0; i--)
+        {
+           
+                
+                int y = i + nums[i];
+                if(y>=n-1)
+                {
+                    dp[i]=1;
+                }
+                else
+                {
+                    int r = 1e5;
+                    for(int j = 1; j<=nums[i]; j++)
+                    {
+                        r=min(r,dp[i+j]);
+                    }
+                    dp[i]=r+1;
+                }
             
-            t=max(t,g);
-            t = min(t, (int)nums.size() - 1);
-            ans++;
-            while(g1<=t){
-                int x = nums[g1]+g1;
-                x = min(x, (int)nums.size() - 1);
-                s.insert(x);
-                g1++;
-            }
-        }
-        return ans;
+         }
+         
+         return dp[0];
     }
 };
