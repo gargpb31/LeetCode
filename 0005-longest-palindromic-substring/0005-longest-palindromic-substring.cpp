@@ -1,70 +1,33 @@
 class Solution {
 public:
     string longestPalindrome(string s) {
-      //  Approach : O(n^2) solution
-      // iterate through each character of string as palindrome;
-        int ans=1;
-        string anss="";
-        anss+=s[0];
-      for(int i=0; i<s.size()-1; i++){
-        
-        if(s[i]==s[i+1]){
-            
-            int g=i;
-            int g1=i+1;
-            string k1="";
-            
-            while(g>=0 && g1<s.size()){
-                if(s[g]==s[g1]) {
-                    k1+=s[g1];
-                    g--;
-                    g1++;
-                }
-                else break;
-            }
-      
-            reverse(k1.begin(),k1.end());
-            string k2 = k1;
-            reverse(k1.begin(),k1.end());
-            k2+=k1;
-            if(k2.size()>ans){
-                ans=k2.size();
-                anss=k2;
-            }
-            
+        int n = s.size();
+        vector<vector<bool>> dp(n, vector<bool>(n));
+        array<int, 2> ans = {0, 0};
 
-
+        for (int i = 0; i < n; ++i) {
+            dp[i][i] = true;
         }
-        
-            int g=i-1;
-            int g1=i+1;
-            string k1="";
-            
-            while(g>=0 && g1<s.size()){
-                if(s[g]==s[g1]) {
-                    k1+=s[g1];
-                    g--;
-                    g1++;
+
+        for (int i = 0; i < n - 1; ++i) {
+            if (s[i] == s[i + 1]) {
+                dp[i][i + 1] = true;
+                ans = {i, i + 1};
+            }
+        }
+
+        for (int diff = 2; diff < n; ++diff) {
+            for (int i = 0; i < n - diff; ++i) {
+                int j = i + diff;
+                if (s[i] == s[j] && dp[i + 1][j - 1]) {
+                    dp[i][j] = true;
+                    ans = {i, j};
                 }
-                else break;
             }
-            if(i==1) cout<<k1;
-            reverse(k1.begin(),k1.end());
-            string k2 = k1;
-            k2+=s[i];
-             reverse(k1.begin(),k1.end());
-            k2+=k1;
-             if(k2.size()>ans){
-                ans=k2.size();
-              
-                anss=k2;
-            }
+        }
 
-
-        
-      }
-      return anss;
-
-
+        int i = ans[0];
+        int j = ans[1];
+        return s.substr(i, j - i + 1);
     }
 };
