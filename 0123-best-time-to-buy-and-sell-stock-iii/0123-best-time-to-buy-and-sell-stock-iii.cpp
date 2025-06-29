@@ -39,15 +39,7 @@ vector<vector<vector<int>>>dp(n+1,vector<vector<int>>(2,vector<int>(3,0)));
             }
         }
     }
-    int ans = 0;
-    for(int flag=0; flag<2; flag++)
-    {
-        for(int d=1; d<=2; d++)
-        {
-                ans=max(ans,dp[0][flag][d]);
-        }
-    }
-    return ans;
+   return dp[0][0][2];
 
     }
 };
