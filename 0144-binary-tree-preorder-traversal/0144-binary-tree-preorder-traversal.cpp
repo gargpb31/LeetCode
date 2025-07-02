@@ -11,19 +11,28 @@
  */
 class Solution {
 public:
-    vector<int> ans;
-    void func(TreeNode* root)
-    {
-        if(root==NULL) return;
-
-        ans.push_back(root->val);
-        if(root->left!=NULL) func(root->left);
-        if(root->right!=NULL) func(root->right);
-    }
-
     vector<int> preorderTraversal(TreeNode* root) {
-        
-        func(root);
+        stack<TreeNode*> s;
+
+        vector<int> ans;
+        if(root==NULL) return ans;
+        s.push(root);
+
+        while(!s.empty())
+        {
+            root=s.top();
+            s.pop();
+
+            ans.push_back(root->val);
+            if(root->right!=NULL)
+            {
+                s.push(root->right);
+            }
+            if(root->left!=NULL)
+            {
+                s.push(root->left);
+            }
+        }
         return ans;
     }
 };
