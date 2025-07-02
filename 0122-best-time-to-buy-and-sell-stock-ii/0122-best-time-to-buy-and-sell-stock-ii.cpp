@@ -5,17 +5,11 @@ public:
     {
         //base case : 
 
-        if(n==prices.size()-1)
+        if(n==prices.size())
         {
-            if(flag==1) 
-            {
-               return prices[n];
-            }
-            else
-            {
-                return 0;
-            }
+            return 0;
         }
+
         if(dp[n][flag]!=-1) return dp[n][flag];
 
         if(flag==0)
@@ -39,7 +33,6 @@ public:
 
         vector<vector<int>> dp(n,vector<int>(2,-1));
 
-        int g = ans(prices,0,0,dp);
-        return g;
+        return ans(prices,0,0,dp);
     }
 };
