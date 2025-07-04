@@ -9,55 +9,20 @@
  */
 class Solution {
 public:
+
+
+
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
-        map<TreeNode*,TreeNode*> m;
-        m[root]=root;
-       queue<TreeNode*> q1;
-       q1.push(root);
-       while(!q1.empty())
-       {
-            TreeNode* root2=q1.front();
-            q1.pop();
+        if(root==NULL || root==p || root==q) return root;
 
-            if(root2->right!=NULL) {m[root2->right]=root2; q1.push(root2->right); }
-            if(root2->left!=NULL) {
-                m[root2->left]=root2;
-                q1.push(root2->left);  }
-
-       }
-
-       map<TreeNode*,int> m2;
-       if(p==root || q==root) return root;
-        m2[p]++;
-       TreeNode* node = m[p];
-       m2[node]++;
-       while(node!=root)
-       {
-            node=m[node];
-            m2[node]++;
+        TreeNode* left = lowestCommonAncestor(root->left,p,q);
+        TreeNode* right = lowestCommonAncestor(root->right,p,q);
 
 
-       }
-       m2[q]++;
-       if(m2[q]==2) return q;
-      node = m[q];
-       m2[node]++;
-       if(m2[node]==2) return node;
-
-       while(node!=root)
-       {
-        node=m[node];
-        m2[node]++;
-        if(m2[node]==2) return node;
-       }
-       return root;
-
-
-
-
-
-
-
+        if(left==NULL) return right;
+        else if(right==NULL) return left;
+        
+        return root;
 
     }
 };
