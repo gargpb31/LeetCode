@@ -11,25 +11,23 @@
  */
 class Solution {
 public:
-    int ans = 0;
-
-    int height(TreeNode* root)
+int ans = 0;
+    int func(TreeNode* root)
     {
+
         if(root==NULL) return 0;
+        int x = func(root->left);
+        int y = func(root->right);
+        ans=max(ans,x+y+1);
 
-        int x = height(root->left);
-        int y = height(root->right);
+        return max(x,y)+1;
 
-        ans=max(ans,x+y);
-
-        return 1+max(x,y);
     }
 
 
-
-
     int diameterOfBinaryTree(TreeNode* root) {
-        height(root);
+        func(root);
+
         return ans;
     }
 };
