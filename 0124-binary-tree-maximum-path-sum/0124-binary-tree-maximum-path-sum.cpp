@@ -12,7 +12,7 @@
 class Solution {
 public:
 
-    int maxval = -1000;
+   
     int aa = -1000;
     int ans(TreeNode* root)
     {
@@ -23,7 +23,7 @@ public:
 
             if(x<0) x=0;
             if(y<0) y=0;
-            maxval = max(maxval,root->val);
+            
             aa=max(aa,root->val+x+y);
             return max(root->val+x,root->val+y);
     }
@@ -32,7 +32,6 @@ public:
     int maxPathSum(TreeNode* root) {
         ans(root);
 
-        if(aa<maxval) return maxval;
         return aa;
     }
 };
