@@ -3,36 +3,20 @@ public:
     int maxFrequency(vector<int>& nums, int k) {
         int n = nums.size();
 
-       
-        map<int,int> m;
-        for(int i=0; i<n; i++) m[nums[i]]++;
-        vector<int> v;
-        for(auto it : m)
-        {
-            v.push_back(it.first);
-        }
-        int s = v.size();
+        long int sum = 0;
+        sort(nums.begin(),nums.end());
         int ans = 0;
-        for(int i=0; i<s; i++)
+        int left=0;
+        for(int i=0; i<n; i++)
         {
-            int j = k;
-            int c = 0;
-            int g = i-1; 
-            while(j!=0 && g>=0)
+            sum+=(nums[i]);
+            long int s = nums[i];
+            while((i-left+1)*(s)-sum>k)
             {
-                int d = v[i]-v[g];
-                if(d<=j)
-                {
-                    int r = j/d;
-                    r=min(r,m[v[g]]);
-                    j-=(d*r);
-                    c+=(r);
-                }
-                else break;
-                g--;
+                sum-=nums[left];
+                left++;
             }
-            ans=max(ans,c+m[v[i]]);
-
+            ans=max(ans,i-left+1);
         }
         return ans;
     }
