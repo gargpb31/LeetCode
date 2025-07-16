@@ -16,7 +16,7 @@ public:
             }
         }
 
-        if(c==0 && c1==0) return 0;
+       
          return c+c1;
 
     }
