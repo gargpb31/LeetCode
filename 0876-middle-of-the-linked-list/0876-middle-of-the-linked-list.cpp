@@ -10,70 +10,21 @@
  */
 class Solution {
 public:
-    int lengt(ListNode* head)
-    {
-        int ans = 0;
-        while(head!=nullptr)
-        {
-            ans++;
-            head=head->next;
-        }
-        return ans;
-    }
-
-    ListNode* mid(ListNode* head)
-    {
-        ListNode* headcopy = head;
-        int length = lengt(headcopy);
-        
-        if(length%2==0)
-        {
-                int midd = (length+2)/2;
-
-                int y = 1;
-                while(y!=midd)
-                {
-                    head=head->next;
-                    y++;
-                }
-                return head;
-        }
-        
-            int midd  = (length+1)/2;
-                int y = 1;
-                while(y!=midd)
-                {
-                    head=head->next;
-                    y++;
-                }
-                return head;
-        
-    }
-
     ListNode* middleNode(ListNode* head) {
-        ListNode* headcopy = head;
-        int length = lengt(headcopy);
-        
-        if(length%2==0)
-        {
-                int midd = (length+2)/2;
+        ListNode* slow = head;
+        ListNode* fast = head;
 
-                int y = 1;
-                while(y!=midd)
-                {
-                    head=head->next;
-                    y++;
-                }
-                return head;
+        while((fast->next)!=nullptr)
+        {
+            slow=slow->next;
+            if(fast->next->next==nullptr)
+            {
+                fast=fast->next;
+            }
+            else
+            fast=fast->next->next;
+
         }
-        
-            int midd  = (length+1)/2;
-                int y = 1;
-                while(y!=midd)
-                {
-                    head=head->next;
-                    y++;
-                }
-                return head;
+        return slow;
     }
 };
