@@ -1,35 +1,31 @@
 class Solution {
 public:
 
-    vector<bool> isprime;
-
-    void sieve()
+    bool isprime(int n)
     {
-        isprime.resize(1e5,true);
-        isprime[0]=false;
-        isprime[1]=false;
-    for(int i=2; i<1e5; i++)
-    {
-        if(isprime[i]==true)
+        if(n<=1) return false;
+        if(n==2) return true;
+        int div = 0;
+        for(int i=2; i*i<=n; i++)
         {
-            for(int j=2*i; j<1e5; j+=i)
+            if(n%i==0)
             {
-                isprime[j]=false;
+                div++;
+
             }
         }
-    }
-
-
+        if(div==0) return true;
+        return false;
 
     }
 
     long long splitArray(vector<int>& nums) {
-        sieve();
+       
         int n = nums.size();
         long long sum1=0,sum2=0;
         for(int i=0; i<n; i++)
         {
-            if(isprime[i])
+            if(isprime(i))
             {
                 sum1+=nums[i];
             }
