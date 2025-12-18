@@ -23,7 +23,7 @@ public:
         
         for(int i=0; i<=(n-k); i++)
         {
-            cout<<i<<endl;
+           
             long long r = add2[i+k-1];
             if(i!=0) r-=add2[i-1];
             long long r2 = add[i+k-1]-add[i+(k/2-1)];
