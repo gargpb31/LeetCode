@@ -5,16 +5,12 @@ public:
         vector<long long> add(n);
 
         long long x = 0;
+         vector<long long> add2(n);
+        long long y= 0;
         for(int i=0; i<n; i++)
         {
             x+=prices[i];
             add[i]=x;
-        }
-
-        vector<long long> add2(n);
-        long long y= 0;
-        for(int i=0; i<n; i++)
-        {
             y+=(prices[i]*strategy[i]);
             add2[i]=y;
         }
