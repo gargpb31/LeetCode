@@ -1,53 +1,46 @@
 class Solution {
 public:
     int singleNonDuplicate(vector<int>& nums) {
+        int n = nums.size()-1;
         int low = 0;
-        int n = nums.size();
-        int high = n-1;
-        if(n==1) return nums[0];
-        while(low<=high)
+        int high = n;
+        if(n==0) return nums[0];
+
+        while(low+1<high)
         {
-            int mid = low+(high-low)/2;
-
-            if(mid==0)
+            int mid = (low+high)/2;
+            if(nums[mid]==nums[mid+1])
             {
-                if(nums[mid+1]!=nums[mid]) return nums[mid];
-            }
-            else if(mid==n-1)
-            {
-                if(nums[mid-1]!=nums[mid]) return nums[n-1];
-
-            }
-            else
-            {
-if(nums[mid-1]!=nums[mid] && nums[mid+1]!=nums[mid]) return nums[mid];
-            }
-
-            if(nums[mid-1]==nums[mid])
-            {
-                int nl = mid-low;
-                int nr = high-mid;
-                if(nr%2==0)
+                int n1 = high-mid-1;
+                int n2 = mid-low;
+                if(n1%2!=0) 
                 {
-                    high=mid;
+                    if(n1==1) return nums[high];
+                    low=mid+2;
                 }
                 else 
                 {
-                    low=mid+1;
+                    if(n2==1) return nums[low];
+                    else high=mid-1;
                 }
             }
-            else
+            else if (nums[mid]==nums[mid-1])
             {
-                int nl = mid-low;
-                if(nl%2==0)
+                int n1 = mid-low-1;
+                int n2 = high-mid;
+                if(n1%2!=0)
                 {
-                    low=mid;
+                    if(n1==1) return nums[low];
+                    high=mid-2;
                 }
                 else
                 {
-                    high=mid-1;
+                    if(n2==1) return nums[high];
+                    low=mid+1;
                 }
+
             }
+            else return nums[mid];
         }
         return -1;
     }
