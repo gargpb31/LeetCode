@@ -4,29 +4,21 @@ public:
         int n = nums.size();
         int low = 0;
         int high = n-1;
-        int ans = 5001;
+        int ans = 5000;
         while(low<=high)
         {
-            int mid = low+(high-low)/2;
-
-            if(nums[mid]<=nums[high])
+            int mid = (low+high)/2;
+            if(nums[low]<=nums[mid])
             {
-                if(nums[low]<=nums[mid])
-                {
-                    return nums[low];
-                }
-                else 
-                {
-                    if(nums[mid-1]>nums[mid]) return nums[mid];
-                    else 
-                    high=mid-1;
-                }
+                ans=min(ans,nums[low]);
+                low=mid+1;
             }
             else
             {
-                low=mid+1;
+                ans=min(ans,nums[mid]);
+                high=mid-1;
             }
         }
-        return -1;
+        return ans;
     }
 };
