@@ -1,60 +1,44 @@
 class Solution {
 public:
-    int findKthPositive(vector<int>& arr, int k) 
-    {
+    int findKthPositive(vector<int>& arr, int k) {
         int n = arr.size();
-
+        int low=0;
+        int high = n-1;
+        int d = arr[low]-1;
         if(n==1)
         {
             int ans = k;
-            if(ans>=arr[0]) ans++;
+            if(arr[0]<=k) ans++;
             return ans;
         }
         if(n==2)
         {
             int ans = k;
-            if(ans>=arr[0]) ans++;
-            if(ans>=arr[1]) ans++;
+            if(arr[0]<=k) ans++;
+            if(arr[1]<=ans) ans++;
             return ans;
         }
-        if(arr[0]!=1 && k==1) return 1;
-        if(arr[0]!=1){
-        reverse(arr.begin(),arr.end());
-        arr.push_back(1);
-         reverse(arr.begin(),arr.end());
-         k--;
-        }
+        if(k<=d) return k;
+        else k-=d;
         
-        int low = 0;
-        int high = arr.size()-1;
-
-        while(high-low>1)
+        while(low+1<high)
         {
-            int mid = low+(high-low)/2;
-        
-            int diff = arr[mid]-arr[low]+1;
-            
-            
-            
-            int diff2 = mid-low+1;
-        
-            int dif = diff-diff2;
-           
-            if(dif>=k)
+            int mid = (low+high)/2;
+            int x = arr[mid]-arr[low];
+            int x1 = mid-low;
+            if((x-x1)>=k) 
             {
-                high = mid;
+                high=mid;
             }
             else
             {
-                k-=dif;
+                k-=(x-x1);
                 low=mid;
             }
+            
         }
-       
         int ans = arr[low]+k;
-
         if(ans>=arr[high]) ans++;
         return ans;
-
     }
 };
