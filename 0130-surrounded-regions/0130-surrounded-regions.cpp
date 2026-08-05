@@ -3,42 +3,38 @@ public:
     void solve(vector<vector<char>>& board) {
         int n = board.size();
         int m = board[0].size();
+        vector<vector<int>> v(n,vector<int>(m,0));
 
         queue<pair<int,int>> q;
         for(int i=0; i<n; i++)
         {
             for(int j=0; j<m; j++)
             {
-                if(i==0 || j==0 || i==n-1 || j==m-1)
+                if(board[i][j]=='O')
                 {
-                if(board[i][j]=='O') {q.push({i,j});
-                board[i][j]='I';}
-                }
+                    if(i==0 || j==0 || i==n-1 || j==m-1){q.push({i,j}); v[i][j]=-1;}
+                    else v[i][j]=1;
+                } 
             }
         }
 
         while(!q.empty())
         {
-            int x1 = q.front().first;
-            int y1 = q.front().second;
-
+            auto [x,y] =q.front();
             q.pop();
 
-            int row[] = {-1,0,+1,0};
-            int col[]={0,-1,0,+1};
+            int dx[]={1,0,-1,0};
+            int dy[]={0,1,0,-1};
 
             for(int i=0; i<4; i++)
             {
-                int nr =x1+row[i];
-                int nc = y1+col[i];
+                int nr = x+dx[i];
+                int nc=y+dy[i];
 
-                if(nr>=0 && nr<n && nc>=0 && nc<m)
+                if(nr>=0 && nc>=0 && nr<n && nc<m && v[nr][nc]==1)
                 {
-                    if(board[nr][nc]=='O')
-                    {
-                        q.push({nr,nc});
-                        board[nr][nc]='I';
-                    }
+                    v[nr][nc]=-1;
+                    q.push({nr,nc});
                 }
             }
         }
@@ -47,11 +43,10 @@ public:
         {
             for(int j=0; j<m; j++)
             {
-                if(board[i][j]=='O') board[i][j]='X';
-                else if(board[i][j]=='I') board[i][j]='O';
+                if(v[i][j]==1) board[i][j]='X';
             }
         }
         
-
+        
     }
 };
