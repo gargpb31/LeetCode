@@ -1,21 +1,17 @@
 class Solution {
 public:
-    int func (int n,vector<int> &dp){
-        if(n==1) return 1;
-        if(n==0) return 1;
-        if(dp[n]!=-1) return dp[n];
-        return dp[n]=func(n-1,dp)+func(n-2,dp);
+    int ways(int n,int x,vector<int> &dp)
+    {
+        if(x>n) return 0;
+        if(x==n) return 1;
+
+        if(dp[x]!=-1) return dp[x];
+        return dp[x]=(ways(n,x+1,dp)+ways(n,x+2,dp));
     }
- 
+
     int climbStairs(int n) {
-        
-       int a = 1;
-       int b=1;
-        for(int i=2; i<=n; i++){
-            int c = a+b;
-            a=b;
-            b=c;
-        }
-        return b;;
+        vector<int> dp(n+1,-1);
+        int ans = ways(n,0,dp);
+        return ans;
     }
 };
