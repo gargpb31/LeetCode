@@ -11,27 +11,38 @@
  */
 class Solution {
 public:
-
-   
-    int aa = -1000;
-    int ans(TreeNode* root)
+    
+    int ans=-1000;
+    int func(TreeNode* root,map<TreeNode*,int> &m)
     {
-            if(root==NULL) return 0;
+        if(root==nullptr)
+        {
+            return 0;
+        }
 
-            int x = ans(root->left);
-            int y = ans(root->right);
+        int leftside=func(root->left,m);
+        int rightside=func(root->right,m);
 
-            if(x<0) x=0;
-            if(y<0) y=0;
-            
-            aa=max(aa,root->val+x+y);
-            return max(root->val+x,root->val+y);
+        ans = max(ans,leftside+rightside+root->val);
+        if(leftside<0 && rightside<0) {ans=max(ans,root->val); return m[root]=root->val;}
+        if(leftside>rightside)
+        {
+            m[root]=leftside+root->val;
+            ans=max(ans,m[root]);
+            return leftside+root->val;
+        }
+        m[root]=rightside+root->val;
+        ans=max(ans,m[root]);
+        return rightside+root->val;
     }
-
 
     int maxPathSum(TreeNode* root) {
-        ans(root);
+        if(root==nullptr) return 0;
 
-        return aa;
-    }
+        map<TreeNode*,int> m;
+    
+        int a = func(root,m);
+        return ans;
+
+    }   
 };
