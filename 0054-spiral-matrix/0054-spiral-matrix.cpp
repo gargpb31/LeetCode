@@ -4,68 +4,48 @@ public:
         int n = matrix.size();
         int m = matrix[0].size();
 
-        int g=0,g1=0;
-        vector<int> v;
-        int flag = 0;
-        while(g<n && g1<m)
-        {  if(matrix[g][g1]==101) break;
-            if(flag==0)
-            {
-               
+        // first row - --->
+        // last column : bottom direction
+        // last row -- <---- direction
+        //first column : up direction
+        int p = 0;
+        int p1 = n-1;
+        int c=0;
+        int c1=m-1;
+        vector<int> ans;
+        int count = 0;
+        while(1)
+        {
+            if(count==m*n) {break;}
 
-                v.push_back(matrix[g][g1]);
-                matrix[g][g1]=101;
-
-                if(g1==m-1)
-                {
-                    flag=1;
-                    g++;
-                }
-                else if (matrix[g][g1+1]==101)
-                {
-                    flag=1;
-                    g++;
-                }
-                else g1++;
-            }
-            else if(flag==1)
+            for(int i=c; i<=c1; i++)
             {
-             v.push_back(matrix[g][g1]);
-                matrix[g][g1]=101;
-                if(g==n-1) 
-                {
-                    flag=2;
-                    g1--;
-                }
-                else if(matrix[g+1][g1]==101) {g1--; flag=2;}
-                else g++;
+                ans.push_back(matrix[p][i]);
+                count++;
             }
-            else if(flag==2)
+            p++;
+            if(count==m*n) {break;}
+            for(int i=p; i<=p1; i++)
             {
-                 v.push_back(matrix[g][g1]);
-                matrix[g][g1]=101;
-
-                if(g1==0)
-                {
-                    flag=3;
-                    g--;
-                }
-                else if(matrix[g][g1-1]==101) {flag=3;  g--;}
-                else g1--;
+                ans.push_back(matrix[i][c1]);
+                count++;
             }
-            else
+            if(count==m*n) {break;}
+            c1--;
+            for(int i=c1; i>=c; i--)
             {
-                 v.push_back(matrix[g][g1]);
-                matrix[g][g1]=101;
-                if(g==0)
-                {
-                    flag=0;
-                    g1++;
-                }
-                else if(matrix[g-1][g1]==101) {flag=0;   g1++;}
-                else g--;
+                ans.push_back(matrix[p1][i]);
+                count++;
             }
+            if(count==m*n) {break;}
+            p1--;
+            for(int i=p1; i>=p; i--)
+            {
+                ans.push_back(matrix[i][c]);
+                count++;
+            }
+            c++;
         }
-        return v;
+        return ans;
     }
 };
