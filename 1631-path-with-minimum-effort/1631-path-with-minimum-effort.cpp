@@ -1,48 +1,47 @@
 class Solution {
 public:
     int minimumEffortPath(vector<vector<int>>& heights) {
-        int row = heights.size();
-        int col = heights[0].size();
+        int n = heights.size();
+        int m = heights[0].size();
 
-        vector<vector<int>> ans(row,vector<int>(col,1e6));
+        vector<vector<int>> v(n,vector<int>(m,1e9));
+        priority_queue<pair<int,pair<int,int>>,vector<pair<int,pair<int,int>>> ,greater<pair<int,pair<int,int>>>> pq;
 
-        ans[row-1][col-1]=0;
+        pq.push({0,{0,0}});
 
-       priority_queue<pair<int, pair<int, int>>, vector<pair<int, pair<int, int>>>, greater<pair<int, pair<int, int>>>> pq;
-
-       pq.push({0,{row-1,col-1}});
-       while(!pq.empty())
-       {
-        auto p = pq.top();
-        pq.pop();
-
-        if(ans[p.second.first][p.second.second]<(p.first)) continue;
-
-        int ro[] = {-1,0,+1,0};
-        int co[] = {0,+1,0,-1};
-
-        for(int i=0; i<4; i++)
+        vector<vector<int>> effort(n,vector<int> (m,1e9));
+        effort[0][0]=0;
+        while(!pq.empty())
         {
-            int nr = p.second.first+ro[i];
-            int nc = p.second.second+co[i];
+            auto it = pq.top();
+            pq.pop();
 
-            if(nr>=0 && nc>=0 && nr<row && nc<col)
+            int dis = it.first;
+            int xc=it.second.first;
+            int yc=it.second.second;
+
+            int row[]={-1,1,0,0};
+            int col[]={0,0,1,-1};
+
+            for(int i=0; i<4; i++)
             {
-int cal = abs(heights[p.second.first][p.second.second]-heights[nr][nc]);
-        cal=max(cal,ans[p.second.first][p.second.second]);
+                int nr=row[i]+xc;
+                int nc=col[i]+yc;
 
-            if(ans[nr][nc]>cal) {
+                if(nr>=0 && nc>=0 && nr<n && nc<m)
+                {
+                    int dif = abs(heights[nr][nc]-heights[xc][yc]);
+                    int d = max(dif,effort[xc][yc]);
+                    if(effort[nr][nc]>d)
+                    {
+                        effort[nr][nc]=d;
+                        pq.push({d,{nr,nc}});
+                    }
+                } 
+            }
 
-                ans[nr][nc]=cal;
-                pq.push({cal,{nr,nc}});
-            }
-            }
         }
-       }
 
-        return ans[0][0];
-
-
-
+        return effort[n-1][m-1];
     }
 };
