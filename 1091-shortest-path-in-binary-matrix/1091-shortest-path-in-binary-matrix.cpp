@@ -2,45 +2,49 @@ class Solution {
 public:
     int shortestPathBinaryMatrix(vector<vector<int>>& grid) {
         int n = grid.size();
+        int m = grid[0].size();
 
-        if(grid[n-1][n-1]==1) return -1;
+        priority_queue<pair<int,pair<int,int>>, vector<pair<int,pair<int,int>>>, greater<pair<int,pair<int,int>>>> pq;
+        if(grid[0][0]==1) return -1;
+        pq.push({1,{0,0}});
 
-        queue<pair<int,pair<int,int>>> q;
-        q.push({1,{n-1,n-1}});
-        vector<vector<int>> ans(n,vector<int>(n,1e8));
-        ans[n-1][n-1]=1;
+        vector<vector<int>> dis(n,vector<int>(m,1e9));
+        dis[0][0]=1;
 
-        while(!q.empty())
+        while(!pq.empty())
         {
-            int x = q.front().first;
-            int y = q.front().second.first;
-            int z = q.front().second.second;
-            q.pop();
-            if(y==0 && z==0) return x;
-            int row [] = {-1,-1,-1,+1,+1,+1,0,0};
-            int col[] = {+1,0,-1,+1,-1,0,-1,+1};
-            if(ans[y][z]<(x)) continue;
+            auto it = pq.top();
+            pq.pop();     
+
+            int dist = it.first;
+            int xc=it.second.first;
+            int yc=it.second.second;
+
+            if(dis[xc][yc]<dist) continue;
+
+            int row[] = {-1,0,0,1,1,1,-1,-1};
+            int col[] = {0,1,-1,0,1,-1,1,-1};
+
             for(int i=0; i<8; i++)
             {
-                int nr = y+row[i];
-                int nc = z+col[i];
-                if(nr>=0 && nc>=0 && nc<n && nr<n)
-                {
-                    if(grid[nr][nc]==0)
-                    {
-                        if(ans[nr][nc]>(x+1))
-                        {
-                            ans[nr][nc]=x+1;
-                        q.push({x+1,{nr,nc}});
+                int nr=row[i]+xc;
+                int nc=col[i]+yc;
 
-                        }
+                if(nr>=0 && nc>=0 && nr<n && nc<m && grid[nr][nc]==0)
+                {
+                    if((dist+1)<dis[nr][nc])
+                    {
+                        dis[nr][nc]=dist+1;
+                        pq.push({dist+1,{nr,nc}});
                     }
                 }
             }
+
+
         }
+
+        if(dis[n-1][m-1]!=1e9) return dis[n-1][m-1];
         return -1;
-
-
-
+        
     }
 };
