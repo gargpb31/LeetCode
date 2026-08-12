@@ -2,31 +2,22 @@ class Solution {
 public:
     int jump(vector<int>& nums) {
         int n = nums.size();
-
-        vector<int> dp(n,0);
-        dp[n-1]=0;
-
-        for(int i=n-2; i>=0; i--)
-        {
-           
-                
-                int y = i + nums[i];
-                if(y>=n-1)
-                {
-                    dp[i]=1;
-                }
-                else
-                {
-                    int r = 1e5;
-                    for(int j = 1; j<=nums[i]; j++)
-                    {
-                        r=min(r,dp[i+j]);
-                    }
-                    dp[i]=r+1;
-                }
-            
-         }
-         
-         return dp[0];
+        if(nums[0]==0 || n==1) return 0;
+        int cur = 1+nums[0];
+        int ans = 1;
+        int ne = cur;
+        int i = 2;
+        while(i<=cur)
+        {   
+            if(i>=n) break;
+            ne=max(ne,nums[i-1]+i);
+            if(i==cur)
+            {
+                cur=ne;
+                ans++;
+            }
+            i++;
+        }
+        return ans;
     }
 };
