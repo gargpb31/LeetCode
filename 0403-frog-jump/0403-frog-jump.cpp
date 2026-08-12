@@ -3,7 +3,7 @@ public:
     bool ans(map<int,int>&m, int cur, vector<vector<int>> &dp, int k,int end)
     {
         if(cur==end) return true;
-        if(k >= dp.size()) return false;
+        
         if(dp[m[cur]][k]!=-1)
         {
             return dp[m[cur]][k];
