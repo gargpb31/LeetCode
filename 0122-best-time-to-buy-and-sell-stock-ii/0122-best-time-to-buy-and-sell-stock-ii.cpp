@@ -1,31 +1,27 @@
 class Solution {
 public:
-
-    int ans(vector<int> &prices,int n,int flag, vector<vector<int>> &dp)
+    int ans(vector<int> &p, int k, int cur, int n,vector<vector<int>> &dp)
     {
-        //base case : 
-
-        if(n==prices.size())
+        if(cur==n)
         {
+            if(k==1) return p[cur];
             return 0;
         }
-
-        if(dp[n][flag]!=-1) return dp[n][flag];
-
-        if(flag==0)
+        if(dp[cur][k]!=-1) return dp[cur][k];
+        int ans1 = 0;
+        if(k==0)
         {
-            int buy = -prices[n]+ans(prices,n+1,1,dp);
-            int move = ans(prices,n+1,0,dp);
-            return dp[n][flag]=max(buy,move);
+            int take = ans(p,1,cur+1,n,dp)-p[cur];
+            int ntake = ans(p,0,cur+1,n,dp);
+            ans1=max(take,ntake);
         }
         else
         {
-            int move = ans(prices,n+1,1,dp);
-            int sold = prices[n]+ans(prices,n+1,0,dp);
-
-            return dp[n][flag]=max(move,sold);
+            int take = p[cur]+ans(p,0,cur+1,n,dp);
+            int ntake = ans(p,1,cur+1,n,dp);
+            ans1=max(take,ntake);
         }
-        return -1;
+        return dp[cur][k]=ans1;
     }
 
     int maxProfit(vector<int>& prices) {
@@ -33,6 +29,6 @@ public:
 
         vector<vector<int>> dp(n,vector<int>(2,-1));
 
-        return ans(prices,0,0,dp);
+        return ans(prices,0,0,n-1,dp);
     }
 };
