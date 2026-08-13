@@ -1,15 +1,27 @@
 class Solution {
 public:
+    int ans(vector<int> &dp, int n, vector<int> &nums, int cur)
+    {
+        if(cur==n){
+            return nums[cur];
+        }
+        if(cur>n) return 0;
+
+        if(dp[cur]!=-1) return dp[cur];
+
+        int take = nums[cur]+ans(dp,n,nums,cur+2);
+        int ntake = ans(dp,n,nums,cur+1);
+
+       return dp[cur]=max(ntake,take);
+    }
+
+
     int rob(vector<int>& nums) {
         int n = nums.size();
-        int x =0,y=0;
 
-        for(int i=n-1; i>=0; i--)
-        {
-            int z = max(nums[i]+y,x);
-            y=x;
-            x=z;
-        }
-        return x;
+        vector<int> dp(n,-1);
+
+        return ans(dp,n-1,nums,0);
+        
     }
 };
