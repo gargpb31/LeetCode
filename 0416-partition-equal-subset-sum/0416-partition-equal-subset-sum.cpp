@@ -1,30 +1,32 @@
 class Solution {
 public:
-    bool canPartition(vector<int>& nums) {
-        int sum=0;
-        int n = nums.size();
-        for(int i=0; i<n; i++) sum+=nums[i];
-        if(sum%2!=0) return false;
-
-        sum/=2;
-
-        vector<bool> v1 (sum+1,0);
-        vector<bool> v2 (sum+1,0);
-        v1[0]=true; v2[0]=true;
-        if(nums[0]<=sum)
-        v1[nums[0]]=true;
-
-        for(int i=1; i<n; i++){
-            for(int j=1; j<=sum; j++){
-                bool ntake = v1[j];
-                bool take =false;
-                if(nums[i]<=j){
-                    take=v1[j-nums[i]];
-                }
-                v2[j]=(take|ntake);
-            }
-            v1=v2;
+    bool ans(vector<int> &nums,vector<vector<int>> &dp, int cur,int target)
+    {
+        if(target==0) return true;
+        if(cur==nums.size()-1)
+        {
+            return nums[cur]==target;
         }
-        return v1[sum];
+
+        if(dp[cur][target]!=-1) return dp[cur][target];
+
+        bool ntake = ans(nums,dp,cur+1,target);
+        if(target>=nums[cur])
+        {
+            bool take = ans(nums,dp,cur+1,target-nums[cur]);
+            ntake=ntake|take;
+        }
+        return dp[cur][target]=ntake;
+    }
+
+    bool canPartition(vector<int>& nums) {
+        int n = nums.size();
+
+        int sum = accumulate(nums.begin(),nums.end(),0);
+
+        if(sum%2==1) return false;
+        int target =  sum/2;
+        vector<vector<int>> dp(n,vector<int>(target+1,-1));
+        return ans(nums,dp,0,target);
     }
 };
