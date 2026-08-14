@@ -1,25 +1,28 @@
 class Solution {
 public:
-
-     int ans(vector<int> &prices, int n, int flag, vector<vector<int>>&dp,int fee)
+    int ans(vector<vector<int>> &dp, int cur,int n,vector<int> &prices,int fee,int k)
     {
-        if(n>=prices.size()) return 0;
+        if(cur==n) return 0;
+        if(dp[cur][k]!=-1) return dp[cur][k];
 
-        if(dp[n][flag]!=-1) return dp[n][flag];
-
-        if(flag>0)
+        int profit = 0;
+        if(k==0)
         {
-return dp[n][flag]=max(prices[n]-fee+ans(prices,n+1,0,dp),ans(prices,n+1,1,dp));
-
-        } 
-    return dp[n][flag]=max(-prices[n]+ans(prices,n+1,1,dp),ans(prices,n+1,0,dp));
+            profit=max(ans(dp,cur+1,n,prices,fee,k),-prices[cur]+ans(dp,cur+1,n,prices,fee,1));
+        }
+        else
+        {
+            profit=max(ans(dp,cur+1,n,prices,fee,k),prices[cur]-fee+ans(dp,cur+1,n,prices,fee,0));
+        }
+        return dp[cur][k]=profit;
     }
 
 
     int maxProfit(vector<int>& prices, int fee) {
-        int n = prices.size();
-        vector<vector<int>> dp(n,vector<int>(2,-1));
 
-        return ans(prices,0,0,dp,fee);
+            int n = prices.size();
+            vector<vector<int>> dp(n,vector<int>(2,-1));
+
+            return ans(dp,0,n,prices,fee,0);
     }
 };
