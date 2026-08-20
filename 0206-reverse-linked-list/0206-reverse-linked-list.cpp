@@ -19,6 +19,7 @@ public:
 
         front->next=head;
         head->next=NULL;
+
         return Newnode;
     }
 };
